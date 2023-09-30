@@ -73,5 +73,5 @@
 
 ## Примеры
 
-1. [Оригинальный excel файл](https://github.com/ProgMaksim/ExcelHelper/blob/master/Materials/Не_обработанная_таблица.xlsx)
+1. [Оригинальный excel файл](https://github.com/Prog-Maksim/ExcelHelper/blob/master/Materials/Не_обработанная_таблица.xlsx)
 2. [Обработанный excel файл](https://github.com/Prog-Maksim/ExcelHelper/blob/master/Materials/Обработанная_таблица.xlsx) 
