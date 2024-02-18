@@ -12,17 +12,10 @@ import customtkinter as ctk
 from cryptography.fernet import Fernet
 
 import file_processing as TEST
+from ProgramFrame.main_windows import MainWindows
 
-if os.path.exists('json files/program_settings.json'):
-    with open('json files/program_settings.json', 'r', encoding='utf-8') as file:
-        theme = dict(json.load(file))
-else:
-    with open('json files/program_settings.json', 'w', encoding='utf-8') as file:
-        theme = {'theme': 'light', 'color_theme': 'green'}
-        json.dump(theme, file, indent=4, ensure_ascii=False)
-
-ctk.set_appearance_mode(theme['theme'])
-ctk.set_default_color_theme(theme['color_theme'])
+ctk.set_appearance_mode("system")
+ctk.set_default_color_theme("green")
 
 
 class Create_Excel_Card(ctk.CTkScrollableFrame):
@@ -749,28 +742,33 @@ class Create_Additional_Menu(ctk.CTkScrollableFrame):
 class Window(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.value = [5, 7]
-        self.on_menu_bool = True  # Переменная хранения значения того что открыто-то ли доп. окно или нет
+
+        self.windows_size = (415, 700)
         self.monitor_height = self.winfo_screenheight()
         self.monitor_width = self.winfo_screenwidth()
-        # Вычисляем середину экрана
-        x = int((self.monitor_width - 415) / 2)
-        y = int((self.monitor_height - 650) / 2)
-        self.geometry(f'415x650+{x}+{y}')
+
+        x = int((self.monitor_width - self.windows_size[0]) / 2)
+        y = int((self.monitor_height - self.windows_size[1]) / 2)
+
+        self.geometry(f'{self.windows_size[0]}x{self.windows_size[1]}+{x}+{y}')
+        # self.minsize(self.windows_size[0], self.windows_size[1])
+        self.resizable(False, False)
         self.title('ExcelHelper')
 
-        self.create_window()
+        self.start()
+
+    def start(self):
+        self.grid_columnconfigure(index=0, weight=1)
+        self.grid_rowconfigure(index=0, weight=1)
+
+        self.main_frame = MainWindows(master=self)
+        self.main_frame.grid(row=0, column=0, sticky='nsew')
 
     def create_window(self) -> None:
-        """
-        Данная функция создает весь UI главного окна программы
-        :return:
-        """
-
         self.frame = ctk.CTkFrame(master=self, width=400, height=550)
         self.frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        self.label1 = ctk.CTkLabel(master=self.frame, text='ExcelHelper', font=('Centure Gothic', 25, 'bold'))
+        self.label1 = ctk.CTkLabel(master=self.frame, text='ExcelHelper', font=('Arial Rounded MT Bold', 25, 'bold'))
         self.label1.place(x=120, y=5)
 
         self.image = ctk.CTkImage(
@@ -1269,5 +1267,6 @@ class Window(ctk.CTk):
             clear_inform_menu(menu=0, text='Введеное вами путь к файлу не найден')
 
 
-app = Window()
-app.mainloop()
+if __name__ == '__main__':
+    app = Window()
+    app.mainloop()
