@@ -25,7 +25,7 @@ class CheckBoxFrame(ctk.CTkFrame):
             checkbox.grid(row=i+1, column=0, padx=0, pady=(5, 0), sticky="w")
             self.checkboxes.append(checkbox)
 
-    def get(self):
+    def get(self) -> list:
         checked_checkboxes = []
         for checkbox in self.checkboxes:
             if checkbox.get() == 1:

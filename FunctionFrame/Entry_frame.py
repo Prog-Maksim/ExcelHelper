@@ -5,15 +5,22 @@ from tkinter import filedialog
 import customtkinter as ctk
 from PIL import Image
 
+from logic.GoogleDrive import check_url
+from UI import main_windows
+
 
 class EntryFrame(ctk.CTkFrame):
-    def __init__(self, title: str, placeholder_text: str, password: bool = False, file: bool = False, **kwargs):
+    def __init__(self, base: main_windows, title: str, placeholder_text: str, password: bool = False, file: bool = False, **kwargs):
         super().__init__(**kwargs)
 
         self.title = title
         self.placeholder_text = placeholder_text
         self.password = password
         self.file = file
+
+        self.text = ""
+        self.url = False
+        self.base_windows = base
 
         self.create_frame()
 
@@ -29,14 +36,13 @@ class EntryFrame(ctk.CTkFrame):
         self.entry = ctk.CTkEntry(
             master=self,
             height=30, width=340,
-            fg_color=("#DBDBDB", "#404040"),
-            text_color="white",
-            border_width=1,
             font=("Montserrat", 15),
-            border_color=("#A29797", "#565B5E"),
             placeholder_text=self.placeholder_text
         )
         self.entry.place(anchor=tk.NW, rely=0.5)
+
+        if not self.password and not self.file:
+            self.after(50, self.__search_url)
 
         if self.password:
             self.__password_button()
@@ -46,10 +52,32 @@ class EntryFrame(ctk.CTkFrame):
             else:
                 self.__path_button()
 
+    def __search_url(self):
+        if self.text != self.entry.get():
+            self.text = self.entry.get()
+            if self.text[:8] == "https://" and len(self.text) >= 15:
+                result = check_url(self.text)
+                self.url = result[0]
+                self.access_url(result)
+            else:
+                self.base_windows.main_button.configure(state="normal")
+                self.entry.configure(fg_color=("#DBDBDB", "#404040"))
+
+        self.after(50, self.__search_url)
+
+    def access_url(self, result: tuple[bool, str]):
+        if result[0]:
+            self.base_windows.main_button.configure(state="normal")
+            self.entry.configure(fg_color=("#D2FFCB", "#365D35"))
+        else:
+            self.base_windows.main_button.configure(state="disabled")
+            self.base_windows.create_information(error=True, message=result[1], error_frame=self)
+            self.entry.configure(fg_color=("#FFC9C9", "#5D3535"))
+
     def __path_button(self):
         path_image_1 = ctk.CTkImage(
-            dark_image=Image.open('Photo_set/Dark_path_menu_1.png'),
-            light_image=Image.open('Photo_set/Light_path_menu_1.png'),
+            dark_image=Image.open('Image/Dark_path_menu_1.png'),
+            light_image=Image.open('Image/Light_path_menu_1.png'),
             size=(20, 20))
 
         self.button_frame = ctk.CTkButton(
@@ -79,8 +107,8 @@ class EntryFrame(ctk.CTkFrame):
         self.entry.configure(show='•')
 
         path_image_2 = ctk.CTkImage(
-            dark_image=Image.open('Photo_set/open_password_dark.png'),
-            light_image=Image.open('Photo_set/open_password_light.png'),
+            dark_image=Image.open('Image/open_password_dark.png'),
+            light_image=Image.open('Image/open_password_light.png'),
             size=(20, 20))
 
         self.button_frame = ctk.CTkButton(
@@ -97,12 +125,12 @@ class EntryFrame(ctk.CTkFrame):
 
     def __click_password(self):
         path_image_3 = ctk.CTkImage(
-            dark_image=Image.open('Photo_set/open_password_dark.png'),
-            light_image=Image.open('Photo_set/open_password_light.png'),
+            dark_image=Image.open('Image/open_password_dark.png'),
+            light_image=Image.open('Image/open_password_light.png'),
             size=(20, 20))
         path_image_4 = ctk.CTkImage(
-            light_image=Image.open('Photo_set/close-eye-dark.png'),
-            dark_image=Image.open('Photo_set/close-eye-light.png'),
+            light_image=Image.open('Image/close-eye-dark.png'),
+            dark_image=Image.open('Image/close-eye-light.png'),
             size=(20, 20))
 
         if self.entry.cget("show") == "•":
@@ -129,8 +157,6 @@ class EntryFrame(ctk.CTkFrame):
         if self.button_frame.cget("text") == ".xlsx":
             self.button_frame.configure(text=".xls")
         elif self.button_frame.cget("text") == ".xls":
-            self.button_frame.configure(text=".csv")
-        elif self.button_frame.cget("text") == ".csv":
             self.button_frame.configure(text=".xlsx")
 
     def error(self):
@@ -138,4 +164,13 @@ class EntryFrame(ctk.CTkFrame):
         self.after(3000, lambda: self.entry.configure(border_color=("#A29797", "#565B5E")))
 
     def get_text(self) -> Path:
-        return Path(self.entry.get())
+        if self.url:
+            return self.entry.get()
+        if self.password:
+            return self.entry.get()
+        if self.file:
+            if str(self.entry.get()) == "":
+                return Path("file_processing_result" + self.button_frame.cget("text"))
+            return Path(self.entry.get() + self.button_frame.cget("text"))
+        else:
+            return Path(self.entry.get())

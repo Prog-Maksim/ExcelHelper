@@ -2,12 +2,15 @@ import tkinter as tk
 
 import customtkinter as ctk
 
+from FunctionFrame.Entry_frame import EntryFrame
+
 
 class InformationFrame(ctk.CTkFrame):
-    def __init__(self, error: bool, message: str, **kwargs):
+    def __init__(self, error: bool, message: str, error_frame: EntryFrame = None, **kwargs):
         super().__init__(**kwargs)
         self.error = error
         self.message = message
+        self.error_frame = error_frame
 
         self.__start()
 
@@ -23,6 +26,9 @@ class InformationFrame(ctk.CTkFrame):
             text_color="#EF0000" if self.error else ("#508F00", "#86EF00"),
         )
         inform_message.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        if self.error_frame is not None:
+            self.error_frame.error()
 
         self.after(3000, lambda: self.destroy())
 

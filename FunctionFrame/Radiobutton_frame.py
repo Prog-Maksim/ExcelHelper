@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import filedialog
+from pathlib import Path
 
 import customtkinter as ctk
 
+from FunctionFrame.Entry_frame import EntryFrame
+
 
 class RadioButtonFrame(ctk.CTkFrame):
-    def __init__(self, title: str, values: list[str], **kwargs):
+    def __init__(self, title: str, values: list[str], file_path: EntryFrame, **kwargs):
         super().__init__(**kwargs)
 
         self.title = title
@@ -13,7 +16,9 @@ class RadioButtonFrame(ctk.CTkFrame):
         self.radio_buttons = []
         self.grid_columnconfigure(0, weight=1)
         self.variable = ctk.IntVar(value=1)
-        self.path_name = "ProcessingFile/"
+        self.file_path: EntryFrame = file_path
+        self.path_name: Path
+        self.base_folder = "ProcessingFiles"
 
         self.__create_radio_buttons()
 
@@ -42,10 +47,13 @@ class RadioButtonFrame(ctk.CTkFrame):
             if len(filename) == 0:
                 self.set(1)
             else:
-                self.path_name = filename
+                self.path_name = Path(filename)
 
-    def get(self) -> tuple:
-        return self.variable.get(), self.path_name
+    def get(self) -> tuple[int, Path]:
+        if self.variable.get() == 1:
+            return 1, Path(f"{self.base_folder}/{self.file_path.get_text()}")
+        else:
+            return self.variable.get(), self.path_name
 
     def set(self, value: int):
         self.variable.set(value)
