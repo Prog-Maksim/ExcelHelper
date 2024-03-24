@@ -1,4 +1,4 @@
-*/__init__.py
+**__init__.py
 # Авторизационные данные в google drive
 PersonData/Credentials.json
 # Авторизационные данные пользователя
