@@ -3,5 +3,7 @@
 PersonData/Credentials.json
 # Авторизационные данные пользователя
 PersonData/person_token.json
+# Системные данные пользователя
+PersonData/person_data.json
 # Папка с обработанными excel файлами
 ProcessingFiles/*
