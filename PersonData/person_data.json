@@ -1,0 +1,19 @@
+{
+    "theme": "light",
+    "processing_files": [
+        {
+            "name": "Тест.xlsx",
+            "start_date": "24.03.2024",
+            "type": "google sheets",
+            "path": "",
+            "url": "https://google.workspace/sheets..."
+        }
+    ],
+    "accounts": [
+        {
+            "name": "Я",
+            "start_date": "24.03.2024",
+            "permissions": "owner"
+        }
+    ]
+}
