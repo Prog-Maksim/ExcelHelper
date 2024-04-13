@@ -1,9 +1,12 @@
+import json
+import os.path
+
 import customtkinter as ctk
 
 from UI.main_windows import MainWindows
 from UI.settings_windows import SettingsWindow
+from complite_processing_file import CompliteProcessingFile
 
-ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("PersonData/green.json")
 
 
@@ -22,7 +25,23 @@ class Window(ctk.CTk):
         self.resizable(False, False)
         self.title('ExcelHelper')
 
+        self.check_person_file_data()
         self.start()
+
+    @staticmethod
+    def check_person_file_data():
+        if os.path.exists("PersonData/person_data.json"):
+            with open("PersonData/person_data.json", "r", encoding="utf-8") as file:
+                data = dict(json.load(file)).get("theme")
+                ctk.set_appearance_mode(data)
+        else:
+            with open("PersonData/person_data.json", "w", encoding="utf-8") as file:
+                date = {
+                    "theme": "system",
+                    "processing_files": [],
+                    "accounts": []
+                }
+                json.dump(date, file, ensure_ascii=False, indent=4)
 
     def start(self):
         self.grid_columnconfigure(index=0, weight=1)
@@ -33,6 +52,11 @@ class Window(ctk.CTk):
     def open_base_menu(self):
         if hasattr(self, 'settings_frame'):
             self.settings_frame.destroy()
+        elif hasattr(self, 'frame'):
+            try:
+                self.frame.destroy()
+            except AttributeError:
+                pass
 
         self.main_frame = MainWindows(master=self, base=self)
         self.main_frame.grid(row=0, column=0, sticky='nsew')
@@ -43,6 +67,13 @@ class Window(ctk.CTk):
 
         self.settings_frame = SettingsWindow(master=self, base=self)
         self.settings_frame.grid(row=0, column=0, sticky="nsew")
+
+    def open_complete_menu(self, data):
+        if hasattr(self, 'main_frame'):
+            self.main_frame.destroy()
+
+        self.frame = CompliteProcessingFile(master=self, data=data, func=self.open_base_menu)
+        self.frame.grid(row=0, column=0, sticky="nsew")
 
 
 if __name__ == '__main__':
