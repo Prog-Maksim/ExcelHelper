@@ -52,8 +52,10 @@ class RadioButtonFrame(ctk.CTkFrame):
     def get(self) -> tuple[int, Path]:
         if self.variable.get() == 1:
             return 1, Path(f"{self.base_folder}/{self.file_path.get_text()}")
-        else:
+        elif self.variable.get() == 2:
             return self.variable.get(), self.path_name
+        else:
+            return 3, Path(self.file_path.get_text())
 
     def set(self, value: int):
         self.variable.set(value)
