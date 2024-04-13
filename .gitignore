@@ -7,3 +7,5 @@ PersonData/person_token.json
 PersonData/person_data.json
 # Папка с обработанными excel файлами
 ProcessingFiles/*
+# Исполняемый файл программы
+output/*
