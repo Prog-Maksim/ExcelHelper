@@ -140,7 +140,7 @@ class GoogleDriveClass:
             )
             return f"https://docs.google.com/spreadsheets/d/{file.get('id')}/"
 
-        except HttpError as error:
+        except HttpError:
             return None
 
     def __get_file_name(self, file_id: str) -> Path:
