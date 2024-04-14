@@ -10,6 +10,24 @@ from complite_processing_file import CompliteProcessingFile
 ctk.set_default_color_theme("PersonData/green.json")
 
 
+def check_person_file_data():
+    if os.path.exists("PersonData/person_data.json"):
+        with open("PersonData/person_data.json", "r", encoding="utf-8") as file:
+            data = dict(json.load(file)).get("theme")
+            ctk.set_appearance_mode(data)
+    else:
+        with open("PersonData/person_data.json", "w", encoding="utf-8") as file:
+            date = {
+                "theme": "system",
+                "processing_files": [],
+                "accounts": []
+            }
+            json.dump(date, file, ensure_ascii=False, indent=4)
+
+    if not os.path.exists("ProcessingFiles"):
+        os.mkdir("ProcessingFiles")
+
+
 class Window(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -25,23 +43,8 @@ class Window(ctk.CTk):
         self.resizable(False, False)
         self.title('ExcelHelper')
 
-        self.check_person_file_data()
+        check_person_file_data()
         self.start()
-
-    @staticmethod
-    def check_person_file_data():
-        if os.path.exists("PersonData/person_data.json"):
-            with open("PersonData/person_data.json", "r", encoding="utf-8") as file:
-                data = dict(json.load(file)).get("theme")
-                ctk.set_appearance_mode(data)
-        else:
-            with open("PersonData/person_data.json", "w", encoding="utf-8") as file:
-                date = {
-                    "theme": "system",
-                    "processing_files": [],
-                    "accounts": []
-                }
-                json.dump(date, file, ensure_ascii=False, indent=4)
 
     def start(self):
         self.grid_columnconfigure(index=0, weight=1)
