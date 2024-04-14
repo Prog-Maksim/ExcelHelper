@@ -5,6 +5,7 @@ import tkinter as tk
 import customtkinter as ctk
 from PIL import Image
 
+from logic import UpdateTheme
 from UI.UI_menu_settings.Base_frame import BaseMenu
 
 
@@ -52,6 +53,7 @@ class DropDownMenu(ctk.CTkFrame):
             self.grid_rowconfigure(index=num, weight=0)
             button_1 = ButtonMenu(master=self, text=item, image=self.data_image.get(item), button_click=self.button_click, pos=num)
             button_1.grid(row=num, column=0, pady=5, padx=5)
+
         self.loading_theme()
 
     def loading_theme(self):
@@ -81,19 +83,7 @@ class DropDownMenu(ctk.CTkFrame):
         self.label.grid(row=index, column=0, sticky="e", padx=(0, 15))
 
         data_pos = {0: "light", 1: "dark", 2: "system"}
-        self.update_theme(data_pos.get(index))
-
-
-    def update_theme(self, new_theme: str):
-        ctk.set_appearance_mode(new_theme)
-
-        if os.path.exists("PersonData/person_data.json"):
-            with open("PersonData/person_data.json", "r", encoding="utf-8") as file:
-                data = dict(json.load(file))
-                data["theme"] = new_theme
-
-            with open("PersonData/person_data.json", "w", encoding="utf-8") as file:
-                json.dump(data, file, ensure_ascii=False, indent=4)
+        UpdateTheme.update_theme(data_pos.get(index))
 
 
 class ThemeMenu(BaseMenu):
