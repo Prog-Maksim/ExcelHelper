@@ -34,7 +34,7 @@
 
 Из дополнительных возможностей можно установить темную или светлую тему на выбор.
 
-<image src="documentation_image\theme.png" alt="ExcelHelper">
+<image src="documentation_image\Theme.png" alt="ExcelHelper">
 
 ### Горячие клавиши 
 
