@@ -68,7 +68,7 @@ class DropDownMenu(ctk.CTkFrame):
                 "description": "Меню выбора файла"
             },
             {
-                "name": "Ctrl + Enter",
+                "name": "Enter",
                 "description": "Запуск обработки файла"
             },
             {
