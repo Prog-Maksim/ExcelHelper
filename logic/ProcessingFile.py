@@ -1,22 +1,10 @@
 import os
 from datetime import datetime
 
-import openpyxl
-import xlrd
-import tkinter as tk
-import customtkinter as ctk
 from pathlib import Path
-from openpyxl import Workbook
-from cryptography.fernet import Fernet
 from openpyxl.reader.excel import load_workbook
-from openpyxl.styles import PatternFill, Protection
+from openpyxl.styles import PatternFill
 import pandas as pd
-from openpyxl.worksheet.worksheet import Worksheet
-
-from UI import complite_processing_file
-
-# TODO Убрать заголовки вврху файла
-# TODO Переименовывать название листа
 
 class processing_file:
     def __init__(self, file_path: Path, save_path: Path = None, security: list = None, password: str = None):
@@ -41,16 +29,18 @@ class processing_file:
                 self.worksheet = self.workbook.active
             elif self.file_path.suffix == '.xls':
                 df = pd.read_excel(self.file_path)
-                df.to_excel('temporality.xlsx', index=False)
+                df.to_excel('temporality.xlsx', index=False, header=False)
 
                 self.workbook = load_workbook(filename='temporality.xlsx', data_only=False)
                 self.worksheet = self.workbook.active
             elif self.file_path.suffix == '.csv':
                 df = pd.read_csv(self.file_path)
-                df.to_excel('temporality.xlsx', index=False)
+                df.to_excel('temporality.xlsx', index=False, header=False)
 
                 self.workbook = load_workbook(filename='temporality.xlsx', data_only=False)
                 self.worksheet = self.workbook.active
+
+            self.worksheet.title = 'ExcelHelper'
 
             self.__find_dublication()
             a, _, _ = self.processing_data()
@@ -164,8 +154,6 @@ class processing_file:
     def processing_data(self) -> tuple:
         """
         Нахождение двух чисел в одном столбце дающие сумму числа равное другому числу
-        :param worksheet: рабочий лист
-        :param index: индексы столбцов "Увеличение" и "Уменьшение"
         :return: словарь результат работы программы, список чисел в "Увеличение" и "Уменьшение"
         """
         result = dict()
@@ -186,8 +174,6 @@ class processing_file:
         """
         Нахождение двух чисел в одном столбце дающие сумму числа равное другому числу
         (проверка тех же совпадений, но в противоположных столбцах)
-        :param worksheet: рабочий лист
-        :param index: индексы столбцов "Увеличение" и "Уменьшение"
         :return: словарь результат работы программы, список чисел в "Увеличение" и "Уменьшение"
         """
         result = dict()
@@ -207,9 +193,7 @@ class processing_file:
     def update_table(self, values: dict) -> None:
         """
         Результат выполнения функций processing_data и processing_data_1 помечаем на таблице серым цветом
-        :param worksheet: рабочий лист
         :param values: словарь значений из двух чисел в сумме дающие число -> ключ
-        :param index: индексы столбцов "Увеличение" и "Уменьшение"
         :return: None.
         """
         col_x, col_y = self.search_index()
@@ -227,13 +211,11 @@ class processing_file:
                 elif i[1] == decrease_cell.value:
                     decrease_cell.fill = fill
 
-    def update_table_1(self, values, ) -> None:
+    def update_table_1(self, values) -> None:
         """
         Результат выполнения функций processing_data и processing_data_1 помечаем на таблице серым цветом
         (функция для противоположных столбцов)
-        :param worksheet: рабочий лист
         :param values: словарь значений из двух чисел в сумме дающие число -> ключ
-        :param index: индексы столбцов "Увеличение" и "Уменьшение"
         :return: None.
         """
         col_x, col_y = self.search_index()
@@ -255,7 +237,6 @@ class processing_file:
         if not self.security:
             return
 
-        print(password)
         if "Защита изменения структуры таблицы" in self.security:
             self.workbook.security.workbookPassword = password
             self.workbook.security.lockStructure = True
@@ -266,5 +247,6 @@ class processing_file:
             self.worksheet.protection.password = password
 
     def save_file_format(self) -> bool:
+
         self.workbook.save(filename=self.save_path)
         return True
