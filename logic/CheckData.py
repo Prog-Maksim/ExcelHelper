@@ -2,7 +2,6 @@ import os.path
 
 from UI import main_windows
 from logic import ProcessingFile
-from UI import complite_processing_file
 
 from pathlib import Path
 
