@@ -33,8 +33,6 @@ class GoogleDriveClass:
         self.SCOPES = ["https://www.googleapis.com/auth/drive"]
         self.creds = None
 
-    # TODO: поменять название приложения в Google drive api
-
     def check_auth(self):
         if os.path.exists("PersonData/person_token.json"):
             self.creds = Credentials.from_authorized_user_file("PersonData/person_token.json", self.SCOPES)
