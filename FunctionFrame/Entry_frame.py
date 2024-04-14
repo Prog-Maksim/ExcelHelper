@@ -88,11 +88,11 @@ class EntryFrame(ctk.CTkFrame):
             bg_color="transparent",
             image=path_image_1,
             hover_color=("#BEBEBE", "#4C4C4C"),
-            command=self.__click_path
+            command=self.click_path
         )
         self.button_frame.place(anchor=tk.NW, rely=0.5, relx=0.9)
 
-    def __click_path(self):
+    def click_path(self):
         root = tk.Tk()
         root.withdraw()
         filename = filedialog.askopenfilename()
@@ -119,11 +119,11 @@ class EntryFrame(ctk.CTkFrame):
             bg_color="transparent",
             image=path_image_2,
             hover_color=("#BEBEBE", "#4C4C4C"),
-            command=self.__click_password
+            command=self.click_password
         )
         self.button_frame.place(anchor=tk.NW, rely=0.5, relx=0.9)
 
-    def __click_password(self):
+    def click_password(self):
         path_image_3 = ctk.CTkImage(
             dark_image=Image.open('Image/open_password_dark.png'),
             light_image=Image.open('Image/open_password_light.png'),
@@ -149,11 +149,11 @@ class EntryFrame(ctk.CTkFrame):
             text_color="#808080",
             bg_color="transparent",
             hover_color=("#BEBEBE", "#4C4C4C"),
-            command=self.__click_file
+            command=self.click_file
         )
         self.button_frame.place(anchor=tk.NW, rely=0.5, relx=0.9)
 
-    def __click_file(self):
+    def click_file(self):
         if self.button_frame.cget("text") == ".xlsx":
             self.button_frame.configure(text=".xls")
         elif self.button_frame.cget("text") == ".xls":
