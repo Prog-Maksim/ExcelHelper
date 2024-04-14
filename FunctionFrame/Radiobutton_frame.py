@@ -37,10 +37,17 @@ class RadioButtonFrame(ctk.CTkFrame):
             radiobutton.grid(row=i + 1, column=0, padx=0, pady=(5, 0), sticky="w")
             self.radio_buttons.append(radiobutton)
 
+    def new_state_radio_button(self):
+        if self.variable.get() == 1:
+            self.variable.set(2)
+            self.__radiobutton_event()
+        elif self.variable.get() == 2:
+            self.variable.set(3)
+        elif self.variable.get() == 3:
+            self.variable.set(1)
+
     def __radiobutton_event(self):
         if self.variable.get() == 2:
-            root = tk.Tk()
-            root.withdraw()
             filename = filedialog.asksaveasfilename(defaultextension='.xlsx',
                                                     filetypes=[('Excel files', ('.xlsx', '.xls', 'csv')),
                                                                ('All files', '*.*')])
