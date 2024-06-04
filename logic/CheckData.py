@@ -97,6 +97,9 @@ class check_data:
             result_save["data"]["GoogleDrive"] = {"folder_id": f"https://drive.google.com/drive/u/0/folders/{folder_id}", "file_url": file_id}
 
             self.main_data.base.open_complete_menu(data=result_save)
+
+            if save_path.exists():
+                os.remove(save_path)
         else:
             self.main_data.create_information(
                 error=True,
