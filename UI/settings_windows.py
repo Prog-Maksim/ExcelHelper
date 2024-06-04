@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 
-from UI_menu_settings import Google_account, Hot_keys, Processing_menu, Program_menu, Security_menu, Theme_menu, Description_menu
+from UI_menu_settings import Google_account, Hot_keys, Program_menu, Security_menu, Theme_menu, Description_menu
 
 
 class SettingsWindow(ctk.CTkFrame):
@@ -60,23 +60,20 @@ class SettingsWindow(ctk.CTkFrame):
         )
         scrollable.grid(row=2, column=0, sticky="nsew", pady=(5, 0))
 
-        menu_1 = Processing_menu.ProcessingMenu(master=scrollable, scrollview=scrollable, position=0)
-        menu_1.grid(row=0, column=0, pady=(0, 5))
+        menu_2 = Hot_keys.HotKeys(master=scrollable, scrollview=scrollable, position=0)
+        menu_2.grid(row=0, column=0, pady=(0, 5))
 
-        menu_2 = Hot_keys.HotKeys(master=scrollable, scrollview=scrollable, position=2)
-        menu_2.grid(row=2, column=0, pady=(0, 5))
+        menu_3 = Google_account.GoogleAccount(master=scrollable, scrollview=scrollable, position=2)
+        menu_3.grid(row=2, column=0, pady=(0, 5))
 
-        menu_3 = Google_account.GoogleAccount(master=scrollable, scrollview=scrollable, position=4)
-        menu_3.grid(row=4, column=0, pady=(0, 5))
+        menu_4 = Theme_menu.ThemeMenu(master=scrollable, scrollview=scrollable, position=4)
+        menu_4.grid(row=4, column=0, pady=(0, 5))
 
-        menu_4 = Theme_menu.ThemeMenu(master=scrollable, scrollview=scrollable, position=6)
-        menu_4.grid(row=6, column=0, pady=(0, 5))
+        menu_5 = Security_menu.SecurityMenu(master=scrollable, scrollview=scrollable, position=6)
+        menu_5.grid(row=6, column=0, pady=(0, 5))
 
-        menu_5 = Security_menu.SecurityMenu(master=scrollable, scrollview=scrollable, position=8)
-        menu_5.grid(row=8, column=0, pady=(0, 5))
-
-        menu_6 = Program_menu.ProgramMenu(master=scrollable, scrollview=scrollable, position=10)
-        menu_6.grid(row=10, column=0, pady=(0, 5))
+        menu_6 = Program_menu.ProgramMenu(master=scrollable, scrollview=scrollable, position=8)
+        menu_6.grid(row=8, column=0, pady=(0, 5))
 
         menu_7 = Description_menu.DescriptionMenu(master=scrollable)
-        menu_7.grid(row=12, column=0, pady=(0, 5))
+        menu_7.grid(row=10, column=0, pady=(0, 5))
