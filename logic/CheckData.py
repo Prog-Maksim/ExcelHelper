@@ -16,7 +16,6 @@ class check_data:
     def __start(self):
         file_path: Path = self.main_data.entry_frame_1.get_text()
         self.method: tuple[int, Path] = self.main_data.radiobutton_frame.get()
-        print(self.method, file_path)
 
         if str(file_path) == ".":
             self.main_data.create_information(
