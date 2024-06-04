@@ -1,4 +1,36 @@
-from UI.UI_menu_settings.Base_frame import BaseMenu, DropDownMenu
+import tkinter as tk
+
+import customtkinter as ctk
+
+from UI.UI_menu_settings.Base_frame import BaseMenu
+
+
+class DropDownMenu(ctk.CTkFrame):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.configure(width=380, height=140, corner_radius=15)
+
+        self.__start()
+
+    def __start(self):
+        self.grid_columnconfigure(index=0, weight=0)
+
+        self.grid_rowconfigure(index=0, weight=0)
+        label = ctk.CTkLabel(
+            master=self,
+            justify="left",
+            text="""Защита изменения структуры таблицы - запрещает 
+создавать, переименовывать, удалять листы итд
+
+Защита отслеживания истории изменения - скрывает 
+историю показа изменения таблицы
+
+Защита листа от изменения - запрещает изменять 
+ячейки в таблице""",
+            text_color=("black", "white"),
+            font=("Montserrat", 13, "bold")
+        )
+        label.place(x=5, y=5)
 
 
 class SecurityMenu(BaseMenu):
