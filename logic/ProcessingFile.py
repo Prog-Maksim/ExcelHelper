@@ -79,11 +79,13 @@ class processing_file:
         except PermissionError:
             return {"success": False, "Data": {}, "Error": "Сохраняемый файл открыт, закройте его!"}
         except Exception as error:
-            print("Что-то страшное")
             return {"success": False, "Data": {}, "Error": f"Ошибка: {error}"}
         finally:
-            if os.path.exists("temporality.xlsx"):
-                os.remove("temporality.xlsx")
+            try:
+                if os.path.exists("temporality.xlsx"):
+                    os.remove("temporality.xlsx")
+            except PermissionError:
+                pass
 
     def search_index(self) -> tuple[int, int]:
         col_x = 0
