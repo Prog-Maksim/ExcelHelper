@@ -105,13 +105,6 @@ class DropDownMenu_2(ctk.CTkFrame):
 
         self.base.update_menu()
 
-        with open("PersonData/person_data.json", "r") as file:
-            data = dict(json.load(file))
-            data.get("accounts").clear()
-
-        with open("PersonData/person_data.json", "w") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-
     def delete_checked_account(self):
         for frame in self.list_frame:
             result = frame.get_status()
