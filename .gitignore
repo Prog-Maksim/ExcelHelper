@@ -9,4 +9,4 @@ PersonData/person_data.json
 ProcessingFiles/*
 # Исполняемый файл программы
 output/*
-*/.idea
+.idea
