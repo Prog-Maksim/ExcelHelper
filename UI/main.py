@@ -19,9 +19,7 @@ def check_person_file_data():
     else:
         with open("PersonData/person_data.json", "w", encoding="utf-8") as file:
             date = {
-                "theme": "system",
-                "processing_files": [],
-                "accounts": []
+                "theme": "system"
             }
             json.dump(date, file, ensure_ascii=False, indent=4)
 
